@@ -22,16 +22,16 @@ int  main(int  argc, char *argv[]){
     int fd ,i , nloop=5,zero=0,*counter_ptr;
     sem_t *mutex; 
   
-  fd = open("log.txt",O_RDWR|O_CREAT,S_IRWXU);
-  write(fd,&zero,sizeof(int));
-  counter_ptr = mmap(NULL,sizeof(int),PROT_READ |PROT_WRITE,MAP_SHARED,fd,0);
-  close(fd);
+    fd = open("log.txt",O_RDWR|O_CREAT,S_IRWXU);
+    write(fd,&zero,sizeof(int));
+    counter_ptr = mmap(NULL,sizeof(int),PROT_READ |PROT_WRITE,MAP_SHARED,fd,0);
+    close(fd);
 
-  /* create, initialize semaphore */
- if ((mutex = sem_open("examplesaaaebbmaphore", O_CREAT, 0644, 1)) == SEM_FAILED) {
-    perror("semaphore initilization");
-    exit(1);
-  }
+    /* create, initialize semaphore */
+    if ((mutex = sem_open("examplesaaaebbmaphore", O_CREAT, 0644, 1)) == SEM_FAILED) {
+       perror("semaphore initilization");
+       exit(1);
+    }
   
     pid = fork();
     if (pid > 0) {
@@ -81,27 +81,28 @@ int  main(int  argc, char *argv[]){
 }
 
 void depositMoney(int* bankAccount){
-  int localBalance = *bankAccount;
-  int amount = rand() % 101;
-  if (amount%2 == 0){
-    localBalance+= amount;
-    printf("Dear old Dad: Deposits $%d / Balance = $%d\n", amount, localBalance);
-    *bankAccount = localBalance;
-  }
-  else{
-    printf("Dear old Dad: Doesn't have any money to give\n");
-  }
+    int localBalance = *bankAccount;
+    int amount = rand() % 101;
+    if (amount%2 == 0){
+        localBalance+= amount;
+        printf("Dear old Dad: Deposits $%d / Balance = $%d\n", amount, localBalance);
+        *bankAccount = localBalance;
+    }
+    else{
+        printf("Dear old Dad: Doesn't have any money to give\n");
+    }
 }
 
 void withdrawMoney(int* bankAccount){
-  int localBalance = *bankAccount;
-  int need = rand() % 51;
-  printf("Poor Student needs $%d\n", need);
-  if (need <= localBalance){
-    localBalance-=need;
-    printf("Poor Student: Withdraws $%d / Balance = $%d\n", need, localBalance);
-    *bankAccount = localBalance;
-  }else{
-    ("Poor Student: Not Enough Cash ($%d)\n", localBalance);
-  }
+    int localBalance = *bankAccount;
+    int need = rand() % 51;
+    printf("Poor Student needs $%d\n", need);
+    if (need <= localBalance){
+        localBalance-=need;
+        printf("Poor Student: Withdraws $%d / Balance = $%d\n", need, localBalance);
+       *bankAccount = localBalance;
+    }
+    else{
+        ("Poor Student: Not Enough Cash ($%d)\n", localBalance);
+    }
 }
